@@ -3,27 +3,47 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
+<meta name="color-scheme" content="dark">
 <title>App Drawer — 540 × 620</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.7.0/dist/tabler-icons.min.css">
 <style>
   :root{
-    --surface-0:#ffffff;--surface-1:#f3f2ee;--surface-2:#ffffff;--surface-3:#ffffff;
-    --text-primary:#1a1a18;--text-secondary:#5f5e5a;--text-muted:#8a8981;--text-disabled:#c9c8c1;
-    --text-accent:#185fa5;--bg-accent:#e6f1fb;--border:rgba(0,0,0,.1);--border-accent:#85b7eb;
-    --shadow-sm:0 1px 2px rgba(0,0,0,.06);--shadow-pop:0 8px 24px rgba(0,0,0,.14);
+    --surface-0:#1c1c1a;--surface-1:#262624;--surface-2:#302f2c;--surface-3:#353330;
+    --text-primary:#f2f1ec;--text-secondary:#b4b2a9;--text-muted:#888780;--text-disabled:#57564f;
+    --text-accent:#85b7eb;--bg-accent:#0c447c;--border:rgba(255,255,255,.12);--border-accent:#378add;
+    --shadow-sm:0 1px 2px rgba(0,0,0,.2);--shadow-pop:0 8px 24px rgba(0,0,0,.4);
     --font-sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  }
-  @media (prefers-color-scheme: dark){
-    :root{
-      --surface-0:#1c1c1a;--surface-1:#262624;--surface-2:#302f2c;--surface-3:#353330;
-      --text-primary:#f2f1ec;--text-secondary:#b4b2a9;--text-muted:#888780;--text-disabled:#57564f;
-      --text-accent:#85b7eb;--bg-accent:#0c447c;--border:rgba(255,255,255,.12);--border-accent:#378add;
-    }
   }
   *{box-sizing:border-box;}
   body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--surface-1);font-family:var(--font-sans);}
   .adw-wrap{display:flex;justify-content:center;padding:24px;}
-  .adw{position:relative;width:540px;height:620px;background:var(--surface-0);border:.5px solid var(--border);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.18);}
+  .device{position:relative;width:540px;height:620px;border:.5px solid var(--border);border-radius:20px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.18);background:linear-gradient(165deg,#4a5a8a 0%,#2b3352 48%,#181c30 100%);}
+  .statusbar{height:36px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 18px;color:#fff;font-size:14px;font-weight:500;z-index:5;background:transparent;transition:background-color .32s ease,color .32s ease;}
+  .statusbar.on-drawer{background:var(--surface-0);color:var(--text-primary);}
+  .sb-time{font-variant-numeric:tabular-nums;letter-spacing:.3px;}
+  .sb-right{display:flex;align-items:center;gap:9px;font-size:16px;}
+  .sb-lte{display:flex;align-items:center;gap:3px;font-size:11px;font-weight:600;letter-spacing:.5px;}
+  .sb-lte i{font-size:15px;}
+  .pager{flex:1;position:relative;overflow:hidden;touch-action:pan-y;}
+  .pages{display:flex;width:200%;height:100%;transform:translateX(0);transition:transform .32s cubic-bezier(.4,0,.2,1);}
+  .home,.adw{flex:0 0 50%;height:100%;position:relative;}
+  .adw{background:var(--surface-0);display:flex;flex-direction:column;overflow:hidden;}
+  .home{display:flex;flex-direction:column;}
+  .home-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:34px 20px 0;}
+  .home-app{display:flex;flex-direction:column;align-items:center;gap:8px;background:transparent;border:none;cursor:pointer;padding:6px 2px;border-radius:14px;transition:transform .1s;}
+  .home-app:active{transform:scale(.92);}
+  .home-ico{width:62px;height:62px;}
+  .home-ico svg{width:100%;height:100%;display:block;}
+  .home-name{font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5);}
+  .home-foot{margin-top:auto;padding-bottom:20px;display:flex;flex-direction:column;align-items:center;gap:14px;}
+  .home-hint{display:flex;align-items:center;gap:5px;color:rgba(255,255,255,.72);font-size:12px;}
+  .home-hint i{font-size:15px;}
+  .home-dots{display:flex;gap:7px;}
+  .dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.4);transition:background .2s;}
+  .dot.on{background:#fff;}
   .adw-foot{padding:14px 18px 16px;display:flex;align-items:center;gap:10px;}
   .adw-search{position:relative;display:flex;align-items:center;flex:1;}
   .adw-search i.ti-search{position:absolute;left:14px;font-size:18px;color:var(--text-muted);}
@@ -102,7 +122,25 @@
 </head>
 <body>
 <div class="adw-wrap">
-  <div class="adw">
+  <div class="device">
+    <div class="statusbar">
+      <span class="sb-time" id="sbTime">9:41</span>
+      <div class="sb-right">
+        <i class="ti ti-wifi" aria-label="Wi-Fi"></i>
+        <span class="sb-lte"><i class="ti ti-antenna-bars-5" aria-hidden="true"></i>LTE</span>
+        <i class="ti ti-bluetooth" aria-label="Bluetooth"></i>
+      </div>
+    </div>
+    <div class="pager" id="pager">
+      <div class="pages" id="pages">
+        <div class="home" id="home">
+          <div class="home-apps" id="homeApps"></div>
+          <div class="home-foot">
+            <div class="home-hint"><i class="ti ti-chevrons-left" aria-hidden="true"></i>Swipe left for App Library</div>
+            <div class="home-dots"><span class="dot on" id="dot0"></span><span class="dot" id="dot1"></span></div>
+          </div>
+        </div>
+  <div class="adw" id="adw">
     <div class="adw-body">
       <div class="adw-scroll" id="adwScroll"></div>
       <div class="adw-rail" id="adwRail" style="display:none;"></div>
@@ -117,7 +155,10 @@
       <button class="adw-close" id="adwClose" aria-label="Close search" title="Close search"><i class="ti ti-x" aria-hidden="true"></i></button>
     </div>
     <div class="kb" id="kb" hidden><div class="kb-inner" id="kbInner"></div></div>
-    <div class="ctx-overlay" id="ctxOverlay" hidden><div class="ctx-menu" id="ctxMenu" role="menu"></div></div>
+  </div>
+      </div>
+      <div class="ctx-overlay" id="ctxOverlay" hidden><div class="ctx-menu" id="ctxMenu" role="menu"></div></div>
+    </div>
   </div>
 </div>
 <script>
@@ -261,6 +302,11 @@
   function isPinned(n){return pinned.indexOf(n)>-1;}
   function byName(n){for(var i=0;i<apps.length;i++)if(apps[i].n===n)return apps[i];return null;}
   function togglePin(a){var i=pinned.indexOf(a.n);if(i>-1)pinned.splice(i,1);else pinned.push(a.n);savePinned();render();}
+  var homeShortcuts=loadHome();
+  function loadHome(){try{var v=localStorage.getItem('adw_home');return v===null?['Music','Files','Settings','Contacts']:(JSON.parse(v)||[]);}catch(e){return ['Music','Files','Settings','Contacts'];}}
+  function saveHome(){try{localStorage.setItem('adw_home',JSON.stringify(homeShortcuts));}catch(e){}}
+  function onHome(n){return homeShortcuts.indexOf(n)>-1;}
+  function toggleHome(a){var i=homeShortcuts.indexOf(a.n);if(i>-1)homeShortcuts.splice(i,1);else homeShortcuts.push(a.n);saveHome();renderHome();}
   function buildTile(a){var b=document.createElement('button');b.className='adw-app';b.title=a.n;b.appendChild(icoTile(a,'adw-ico'));var nm=document.createElement('span');nm.className='adw-name';nm.textContent=a.n;b.appendChild(nm);attachMenuTriggers(b,a);return b;}
   function buildRow(a){var r=document.createElement('button');r.className='adw-row';r.appendChild(icoTile(a,'adw-rico'));var nm=document.createElement('span');nm.className='adw-rname';nm.textContent=a.n;r.appendChild(nm);var ct=document.createElement('span');ct.className='adw-rcat';ct.textContent=a.c;r.appendChild(ct);attachMenuTriggers(r,a);return r;}
   function gridOf(arr,top){var g=document.createElement('div');g.className='adw-grid';if(top!=null)g.style.paddingTop=top;arr.forEach(function(a){g.appendChild(buildTile(a));});return g;}
@@ -320,6 +366,10 @@
     var pinT=document.createElement('span');pinT.textContent=isPinned(a.n)?'Unpin app':'Pin app';
     var pinI=document.createElement('i');pinI.className='ti '+(isPinned(a.n)?'ti-pinned-off':'ti-pin');pinI.setAttribute('aria-hidden','true');
     pinB.appendChild(pinT);pinB.appendChild(pinI);pinB.onclick=function(){togglePin(a);closeMenu();};acts.appendChild(pinB);
+    var homeB=document.createElement('button');homeB.className='ctx-act';homeB.setAttribute('role','menuitem');
+    var homeT=document.createElement('span');homeT.textContent=onHome(a.n)?'Remove from Home':'Add to Home';
+    var homeI=document.createElement('i');homeI.className='ti '+(onHome(a.n)?'ti-home-minus':'ti-home-plus');homeI.setAttribute('aria-hidden','true');
+    homeB.appendChild(homeT);homeB.appendChild(homeI);homeB.onclick=function(){toggleHome(a);closeMenu();};acts.appendChild(homeB);
     (a.a||[]).forEach(function(x){
       var b=document.createElement('button');b.className='ctx-act'+(x.d?' danger':'');b.setAttribute('role','menuitem');
       var sp=document.createElement('span');sp.textContent=x.l;var ic=document.createElement('i');ic.className='ti '+x.i;ic.setAttribute('aria-hidden','true');
@@ -337,7 +387,7 @@
       menu.appendChild(foot);
     }
     overlay.hidden=false;
-    var dr=drawer.getBoundingClientRect(),ar=el.getBoundingClientRect();
+    var dr=pager.getBoundingClientRect(),ar=el.getBoundingClientRect();
     var W=dr.width,H=dr.height,pad=10,gap=10;
     var mw=menu.offsetWidth,mh=menu.offsetHeight;
     var acx=ar.left-dr.left+ar.width/2;
@@ -455,8 +505,46 @@
   input.oninput=syncQuery;
   clearBtn.onmousedown=function(e){e.preventDefault();};
   clearBtn.onclick=function(){query='';input.value='';clearBtn.style.display='none';input.focus();syncQuery();};
-  closeBtn.onclick=function(){query='';input.value='';clearBtn.style.display='none';input.blur();setMode('grid');};
+  closeBtn.onmousedown=function(e){e.preventDefault();};
+  closeBtn.onclick=function(){query='';input.value='';clearBtn.style.display='none';searchActive=false;closeKeyboard();setMode('grid');input.blur();};
   render();
+
+  var sbTime=document.getElementById('sbTime'),homeApps=document.getElementById('homeApps'),
+      pager=document.getElementById('pager'),pages=document.getElementById('pages'),
+      statusbar=document.querySelector('.statusbar'),
+      dot0=document.getElementById('dot0'),dot1=document.getElementById('dot1');
+  function updateClock(){var d=new Date(),h=d.getHours(),m=d.getMinutes(),hh=h%12;if(hh===0)hh=12;sbTime.textContent=hh+':'+(m<10?'0'+m:m);}
+  updateClock();setInterval(updateClock,15000);
+  function homeTile(a){var b=document.createElement('button');b.className='home-app';b.title=a.n;var ic=document.createElement('div');ic.className='home-ico';ic.innerHTML=iconSVG(a);b.appendChild(ic);var nm=document.createElement('span');nm.className='home-name';nm.textContent=a.n;b.appendChild(nm);attachMenuTriggers(b,a);return b;}
+  function renderHome(){homeApps.innerHTML='';homeShortcuts.forEach(function(n){var a=byName(n);if(a)homeApps.appendChild(homeTile(a));});}
+  renderHome();
+  var page=0;
+  function pagerW(){return pager.clientWidth;}
+  function setPage(p,anim){page=p;pages.style.transition=anim===false?'none':'transform .32s cubic-bezier(.4,0,.2,1)';pages.style.transform='translateX('+(-p*pagerW())+'px)';dot0.classList.toggle('on',p===0);dot1.classList.toggle('on',p===1);statusbar.classList.toggle('on-drawer',p===1);if(p===0&&searchActive)input.blur();}
+  var dActive=false,dHoriz=false,dStartX=0,dStartY=0,dBase=0;
+  pager.addEventListener('pointerdown',function(e){if(!overlay.hidden)return;dActive=true;dHoriz=false;dStartX=e.clientX;dStartY=e.clientY;dBase=-page*pagerW();});
+  document.addEventListener('pointermove',function(e){
+    if(!dActive||!overlay.hidden){dActive=false;return;}
+    var dx=e.clientX-dStartX,dy=e.clientY-dStartY;
+    if(!dHoriz){
+      if(Math.abs(dx)>10&&Math.abs(dx)>Math.abs(dy)+4){dHoriz=true;pages.style.transition='none';}
+      else if(Math.abs(dy)>10){dActive=false;return;}
+      else return;
+    }
+    var tx=Math.max(-pagerW(),Math.min(0,dBase+dx));
+    pages.style.transform='translateX('+tx+'px)';
+    statusbar.classList.toggle('on-drawer',(-tx)>pagerW()/2);
+  });
+  function endDrag(e){
+    if(!dActive)return;dActive=false;
+    if(!dHoriz){return;}
+    var dx=e.clientX-dStartX,th=pagerW()*0.2,t=page;
+    if(page===0&&dx<-th)t=1;else if(page===1&&dx>th)t=0;
+    setPage(t,true);
+  }
+  document.addEventListener('pointerup',endDrag);
+  document.addEventListener('pointercancel',endDrag);
+  setPage(0,false);
 })();
 </script>
 </body>
